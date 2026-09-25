@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Eventing.Reader;
-using System.Text;
+﻿using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1
+namespace szinkevero_wpf
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -21,95 +19,35 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            sliBlue.Value = 0;
+            sliGreen.Value = 0;
+            sliRed.Value = 0;
         }
 
-        private void btnOsszeadas_Click(object sender, RoutedEventArgs e)
+        private void sliRed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            try
-            {
-                
-                lbEredmeny.Content = Convert.ToDouble(txtAszam.Text) + Convert.ToDouble(txtBszam.Text);
-            }
-            catch (FormatException forma)
-            {
-                MessageBox.Show(forma.Message);
-                if (SzamEllen())
-                {
-                    return;
-                }
-            }
+            ColorChanger();
         }
 
-        private void btnSzorzas_Click(object sender, RoutedEventArgs e)
+        private void sliGreen_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            try
-            {
-                
-                lbEredmeny.Content = Convert.ToDouble(txtAszam.Text) * Convert.ToDouble(txtBszam.Text);
-            }
-            catch(FormatException forma) 
-            {
-                MessageBox.Show(forma.Message);
-                if (SzamEllen())
-                {
-                    return;
-                }
-            }
+            ColorChanger();
         }
 
-        private void btnKivonas_Click(object sender, RoutedEventArgs e)
+        private void sliBlue_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            try
-            {
-                lbEredmeny.Content = Convert.ToDouble(txtAszam.Text) - Convert.ToDouble(txtBszam.Text);
-            }
-            catch (FormatException forma)
-            {
-                MessageBox.Show(forma.Message);
-                if (SzamEllen())
-                {
-                    return;
-                }
-            }
+            ColorChanger();
         }
-
-        private void btnOsztas_Click(object sender, RoutedEventArgs e)
+        private void ColorChanger()
         {
-            try
-            {
-                if (Convert.ToDouble(txtBszam.Text) == 0)
-                {
-                    MessageBox.Show("A nevező nem lehet 0");
-                }
-                else
-                {
-                    lbEredmeny.Content = Convert.ToDouble(txtAszam.Text) / Convert.ToDouble(txtBszam.Text);
-                }
-            }
-            catch (FormatException forma)
-            {
-                MessageBox.Show(forma.Message);
-                if (SzamEllen())
-                {
-                    return;
-                }
-            }
-        }
-        private bool SzamEllen()
-        {
-            bool a = double.TryParse(txtAszam.Text, out _);
-            bool b = double.TryParse(txtBszam.Text, out _);
-            if (!a)
-            {
-                txtAszam.Text = "";
-                txtAszam.Focus();
-            }
-            if (!b)
-            {
-                txtBszam.Text = "";
-                txtBszam.Focus();
-            }
-            return a && b;
+            byte red, green, blue;
+            blue = Convert.ToByte(sliBlue.Value);
+            green = Convert.ToByte(sliGreen.Value);
+            red = Convert.ToByte(sliRed.Value);
+            rctTeglalap.Fill = new SolidColorBrush(Color.FromRgb(red, green, blue));
+            redValue.Content = red;
+            blueValue.Content = blue;
+            greenValue.Content = green;
         }
     }
 }
